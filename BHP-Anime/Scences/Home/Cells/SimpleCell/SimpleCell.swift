@@ -33,7 +33,7 @@ class SimpleCell: UITableViewCell {
 
             self.img.kf.setImage(with: url)
         }else{
-            self.img.image = UIImage(named: "test")
+            self.img.image = UIImage(named: "imgPlaceholder")
         }
 
         self.titleAnime.text = item.name

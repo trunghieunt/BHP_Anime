@@ -27,7 +27,7 @@ class FavoriteCell: UICollectionViewCell {
             let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
 self.img.kf.setImage(with: url)
         }else{
-            self.img.image = UIImage(named: "test")
+            self.img.image = UIImage(named: "imgPlaceholder")
         }
         
     }

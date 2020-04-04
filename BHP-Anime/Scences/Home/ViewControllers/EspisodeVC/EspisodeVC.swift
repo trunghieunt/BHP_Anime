@@ -17,8 +17,8 @@ class EspisodeVC: UIViewController {
     @IBOutlet weak var movieRating: UILabel!
     @IBOutlet weak var movieDescription: UITextView!
     
-    var id: String?
-    var season: String?
+    var id: String!
+    var season: String!
     
     fileprivate var cardSize: CGSize {
         let layout = collectionView.collectionViewLayout as! ScrollCardCollectionViewLayout
@@ -38,6 +38,11 @@ class EspisodeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Espisode"
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.clipsToBounds = false
+        collectionView.registerCell(EspisodeCell.className)
+        
         getEpisodeItems()
         
 
@@ -45,41 +50,29 @@ class EspisodeVC: UIViewController {
     }
     
     func getEpisodeItems() {
-        AnimeAPIManager.sharedInstance.getEpisodeItems(id: id ?? "60572", seasons: season ?? "1", success: { (listEpisode) in
-            self.listEpisode = listEpisode
-            self.configTB()
+        
+        self.showLoadingIndicator()
+        AnimeAPIManager.sharedInstance.getEpisodeItems(id: id, seasons: season, success: { [weak self] (listEpisode) in
+            
+            guard let strongSelf = self else {return}
+            strongSelf.listEpisode = listEpisode
+            strongSelf.collectionView.reloadData()
+            strongSelf.hideLoadingIndicator()
+            strongSelf.changeMovieDetailsUnderneath()
+            
         }) { (error) in
             print(error)
         }
     }
-    
-    func configTB() {
-
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.clipsToBounds = false
-        collectionView.registerCell(EspisodeCell.className)
-        
-        DispatchQueue.main.async {
-            self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
-            self.collectionView.alpha = 1
-        }
-    }
-    
    
     func changeMovieDetailsUnderneath() {
         
-//        UILabel.animate(withDuration: 0.8) {
-            self.movieName.text = self.listEpisode[self.currentPage].name
-//            self.movieGenreRuntimeReleaseDate.text = self.listEpisode[self.currentPage].genre! + " | " + self.listEpisode[self.currentPage].runtime! + " | " + self.listEpisode[self.currentPage].releaseDate!
-            self.movieGenreRuntimeReleaseDate.text = self.listEpisode[self.currentPage].airDate
-            self.movieRating.text = String(self.listEpisode[self.currentPage].voteAverage ?? 0)
-            self.movieDescription.text = self.listEpisode[self.currentPage].overview
-//        }
+        self.movieName.text = self.listEpisode[self.currentPage].name
+        self.movieGenreRuntimeReleaseDate.text = self.listEpisode[self.currentPage].airDate
+        self.movieRating.text = String(self.listEpisode[self.currentPage].voteAverage ?? 0)
+        self.movieDescription.text = self.listEpisode[self.currentPage].overview
         
     }
-    
-
 
 }
 
@@ -90,26 +83,7 @@ extension EspisodeVC: UICollectionViewDataSource, UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EspisodeCell.className, for: indexPath) as! EspisodeCell
-        
-//        cell.img.image = listEpisode[indexPath.row].stillPath
-        
-        if let strUrl = listEpisode[indexPath.row].stillPath {
-            let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-
-            cell.img.kf.setImage(with: url)
-        }else{
-            cell.img.image = UIImage(named: "test")
-        }
-        
-        cell.contentView.layer.cornerRadius = 15.0
-        cell.contentView.layer.masksToBounds = true
-        
-        cell.img.layer.shadowColor = UIColor.lightGray.cgColor
-        cell.img.layer.shadowOffset = CGSize(width: 10, height: 10)
-        cell.img.layer.shadowRadius = 20
-        cell.img.layer.shadowOpacity = 0.2
-        cell.img.layer.masksToBounds = false
-        cell.img.layer.shadowPath = UIBezierPath(roundedRect: cell.img.layer.bounds, cornerRadius: cell.img.layer.cornerRadius).cgPath
+        cell.configImage(listEpisode[indexPath.row].stillPath)
         
         return cell
     }

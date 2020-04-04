@@ -10,7 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlayerVideoVC" customModule="BHP_Anime" customModuleProvider="target">
             <connections>
-                <outlet property="titleName" destination="llc-0F-jFj" id="VM9-NI-oEF"/>
                 <outlet property="videoPlayer" destination="Z4r-dP-SNe" id="4rz-g4-BZ2"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -20,57 +19,20 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIR-IA-ps2">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="58"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S5C-Le-BKt">
-                            <rect key="frame" x="8" y="14" width="40" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="WFy-Ty-ZEg"/>
-                                <constraint firstAttribute="width" constant="40" id="mBi-o2-4Ga"/>
-                            </constraints>
-                            <state key="normal" image="ic_back"/>
-                            <connections>
-                                <action selector="actiondismiss:" destination="-1" eventType="touchUpInside" id="C8b-NE-d47"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Youtube" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="llc-0F-jFj">
-                            <rect key="frame" x="56" y="20" width="263" height="22"/>
-                            <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="18"/>
-                            <color key="textColor" red="0.047058823530000002" green="0.054901960780000002" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                    <constraints>
-                        <constraint firstItem="llc-0F-jFj" firstAttribute="top" secondItem="ZIR-IA-ps2" secondAttribute="top" constant="20" id="6yn-Ze-eLQ"/>
-                        <constraint firstAttribute="bottom" secondItem="llc-0F-jFj" secondAttribute="bottom" constant="16" id="71a-Nc-5up"/>
-                        <constraint firstItem="llc-0F-jFj" firstAttribute="leading" secondItem="S5C-Le-BKt" secondAttribute="trailing" constant="8" id="8vI-sx-lHJ"/>
-                        <constraint firstItem="S5C-Le-BKt" firstAttribute="leading" secondItem="ZIR-IA-ps2" secondAttribute="leading" constant="8" id="Jgu-1a-lIo"/>
-                        <constraint firstItem="llc-0F-jFj" firstAttribute="centerX" secondItem="ZIR-IA-ps2" secondAttribute="centerX" id="mzK-o8-t0o"/>
-                        <constraint firstItem="S5C-Le-BKt" firstAttribute="centerY" secondItem="llc-0F-jFj" secondAttribute="centerY" constant="3" id="yOg-K8-IgS"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z4r-dP-SNe" customClass="YouTubePlayerView" customModule="YouTubePlayer">
-                    <rect key="frame" x="0.0" y="58" width="375" height="609"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ZIR-IA-ps2" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="LK7-SQ-YKb"/>
-                <constraint firstItem="ZIR-IA-ps2" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Lfo-QN-6eb"/>
                 <constraint firstItem="Z4r-dP-SNe" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Pyp-Hc-k91"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Z4r-dP-SNe" secondAttribute="trailing" id="R8q-Os-FYl"/>
-                <constraint firstItem="ZIR-IA-ps2" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="WdV-0s-9fl"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Z4r-dP-SNe" secondAttribute="bottom" id="k16-IX-9dx"/>
-                <constraint firstItem="Z4r-dP-SNe" firstAttribute="top" secondItem="ZIR-IA-ps2" secondAttribute="bottom" id="tmk-IE-FBo"/>
+                <constraint firstItem="Z4r-dP-SNe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="tYq-I5-S2J"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <point key="canvasLocation" x="332" y="108"/>
         </view>
     </objects>
-    <resources>
-        <image name="ic_back" width="11" height="18"/>
-    </resources>
 </document>

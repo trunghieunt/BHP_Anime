@@ -17,6 +17,8 @@ class SearchVC: UIViewController {
     var page = 1
     var listItem : [Popular] = []
     var textSearch : String = ""
+    private var searchTimer:Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -55,7 +57,6 @@ class SearchVC: UIViewController {
             }else{
                 self.getlistItems(true)
             }
-            self.tableview.switchRefreshFooter(to: .normal)
         }
         
         self.tableview.configRefreshHeader(container: self) {
@@ -64,7 +65,6 @@ class SearchVC: UIViewController {
             }else{
                 self.getlistItems(false)
             }
-            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
         }
         
         searchbar.addTarget(self, action: #selector(actionSearch), for: .editingChanged)
@@ -75,6 +75,17 @@ class SearchVC: UIViewController {
         view.endEditing(true)
     }
     @objc func actionSearch(){
+        
+        searchTimer?.invalidate()
+        searchTimer = Timer.scheduledTimer(timeInterval: 1,
+                                            target: self,
+                                            selector: #selector(updateSearch),
+                                            userInfo: nil,
+                                            repeats: false)
+        
+    }
+    
+    @objc func updateSearch(){
         self.textSearch = self.searchbar.text ?? ""
         if self.textSearch != ""{
             getlistItemsSearch(false)
@@ -88,25 +99,33 @@ class SearchVC: UIViewController {
             self.page += 1
         }else{
             self.page = 1
+            self.showLoadingIndicator()
         }
 
-
-        self.showLoadingIndicator()
-        SearchAPIManager.sharedInstance.listPopular(query: self.textSearch, page: String(self.page), success: {(listItemsSearch) in
+        SearchAPIManager.sharedInstance.listPopular(query: self.textSearch, page: String(self.page), success: { [weak self] (listItemsSearch) in
             
+            guard let sSelf = self else {return}
             if loadmore{
-                self.listItem.append(contentsOf: listItemsSearch)
+                sSelf.listItem.append(contentsOf: listItemsSearch)
             }else{
-                self.listItem = listItemsSearch
+                sSelf.listItem = listItemsSearch
             }
 
-            self.hideLoadingIndicator()
-
-            self.tableview.reloadData()
-        }) { (error) in
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.reloadData()
+            if listItemsSearch.count == 0 {
+                sSelf.tableview.switchRefreshFooter(to: .noMoreData)
+            } else {
+                sSelf.tableview.switchRefreshFooter(to: .normal)
+            }
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+        }) { [weak self] (error) in
+            guard let sSelf = self else {return}
             print(error)
-            self.showToastAtBottom(message: error)
-            self.hideLoadingIndicator()
+            sSelf.showToastAtBottom(message: error)
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+            sSelf.tableview.switchRefreshFooter(to: .noMoreData)
         }
     }
 
@@ -115,23 +134,34 @@ class SearchVC: UIViewController {
             self.page += 1
         }else{
             self.page = 1
+            self.showLoadingIndicator()
         }
-        
-        self.showLoadingIndicator()
 
-        AnimeAPIManager.sharedInstance.listPopular(type: 1, page: String(self.page), success: { (listItems) in
+        AnimeAPIManager.sharedInstance.listPopular(type: 1, page: String(self.page), success: { [weak self] (listItems) in
+            
+            guard let sSelf = self else {return}
             if loadmore{
-                self.listItem.append(contentsOf: listItems)
+                sSelf.listItem.append(contentsOf: listItems)
             }else{
-                self.listItem = listItems
+                sSelf.listItem = listItems
             }
 
-            self.hideLoadingIndicator()
-            self.tableview.reloadData()
-        }) { (error) in
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.reloadData()
+            if listItems.count == 0 {
+                sSelf.tableview.switchRefreshFooter(to: .noMoreData)
+            } else {
+                sSelf.tableview.switchRefreshFooter(to: .normal)
+            }
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+        }) { [weak self] (error) in
+            guard let sSelf = self else {return}
             print(error)
-            self.showToastAtBottom(message: error)
-            self.hideLoadingIndicator()
+            sSelf.showToastAtBottom(message: error)
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+            sSelf.tableview.switchRefreshFooter(to: .noMoreData)
+            
         }
     }
 }

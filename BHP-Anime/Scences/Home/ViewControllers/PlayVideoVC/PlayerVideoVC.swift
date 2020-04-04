@@ -13,14 +13,12 @@ class PlayerVideoVC: UIViewController {
     
 @IBOutlet var videoPlayer: YouTubePlayerView!
     
-    @IBOutlet weak var titleName: UILabel!
     var nameVideo: String?
     var key: String?
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleName.text = nameVideo
-//        self.navigationController?.navigationBar.isHidden = true
+        title = nameVideo
 
         videoPlayer.loadVideoID(key ?? "")
         videoPlayer.play()
@@ -31,11 +29,6 @@ class PlayerVideoVC: UIViewController {
 //        playerVideo.delegate = self
 //        playerVideo.loadPlayer()
         // Do any additional setup after loading the view.
-    }
-    
-    @IBAction func actiondismiss(_ sender: Any) {
-        self.popViewController()
-        
     }
     
     

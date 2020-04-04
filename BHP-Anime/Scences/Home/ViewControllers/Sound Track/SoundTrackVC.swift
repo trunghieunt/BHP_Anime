@@ -37,8 +37,11 @@ class SoundTrackVC: UIViewController {
             sSelf.hideLoadingIndicator()
             sSelf.listSoundtrack = listSoundtrack
             sSelf.tableView.reloadData()
-        }) { (error) in
+            
+        }) { [weak self] (error) in
             print(error)
+            guard let sSelf = self else {return}
+            sSelf.hideLoadingIndicator()
         }
         
        

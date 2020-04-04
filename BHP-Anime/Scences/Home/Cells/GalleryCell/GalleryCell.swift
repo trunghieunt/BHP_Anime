@@ -14,8 +14,17 @@ class GalleryCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 //        img.clipsToBounds = true
-        self.layer.cornerRadius = 6
-        // Initialization code
+        self.img.layer.cornerRadius = 6
+    }
+    
+    func configImage(_ thumb:String?){
+        
+        if let strUrl = thumb {
+            let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
+            img.kf.indicatorType = .activity
+            img.kf.setImage(with: url)
+        }
+        
     }
 
 }

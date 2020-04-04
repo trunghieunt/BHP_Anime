@@ -14,9 +14,7 @@ import Cosmos
 class DetailAnimeVC: UIViewController {
     
     @IBOutlet weak var viewPoster: UIView!
-    
-    @IBOutlet weak var navTitle: UILabel!
-    
+
     @IBOutlet weak var viewTime: UIView!
     
     @IBOutlet weak var lblTime: UILabel!
@@ -75,12 +73,12 @@ class DetailAnimeVC: UIViewController {
         viewPoster.layer.cornerRadius = 16
         imgPoster.layer.cornerRadius = 16
         viewPoster.addShadow(offset: CGSize(width: 2, height: 6), color: .black, radius: 12, opacity: 0.5)
-        collectionViewGallery.backgroundColor = .groupTableViewBackground
-        collectionViewCrew.backgroundColor = .groupTableViewBackground
-        collectionViewCast.backgroundColor = .groupTableViewBackground
-        viewGallery.backgroundColor = .groupTableViewBackground
-        viewCast.backgroundColor = .groupTableViewBackground
-        viewCrew.backgroundColor = .groupTableViewBackground
+//        collectionViewGallery.backgroundColor = .groupTableViewBackground
+//        collectionViewCrew.backgroundColor = .groupTableViewBackground
+//        collectionViewCast.backgroundColor = .groupTableViewBackground
+//        viewGallery.backgroundColor = .groupTableViewBackground
+//        viewCast.backgroundColor = .groupTableViewBackground
+//        viewCrew.backgroundColor = .groupTableViewBackground
         viewGallery.layer.cornerRadius = 8
         viewCast.layer.cornerRadius = 8
         viewCrew.layer.cornerRadius = 8
@@ -94,7 +92,7 @@ class DetailAnimeVC: UIViewController {
         checkListFavorite()
         if let strUrl = item?.posterPath {
             let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-            self.imgPoster.kf.setImage(with: url, placeholder: UIImage(named: "test"))
+            self.imgPoster.kf.setImage(with: url, placeholder: UIImage(named: "imgPlaceholder"))
         }
         
         
@@ -189,11 +187,7 @@ class DetailAnimeVC: UIViewController {
             }
         }
     }
-    @IBAction func actionBack(_ sender: Any) {
-        self.hidesBottomBarWhenPushed = false
-        self.popViewController()
-        
-    }
+
     
     @IBAction func actionPlay(_ sender: Any) {
         playVideo()
@@ -246,7 +240,6 @@ class DetailAnimeVC: UIViewController {
             let playVideo = PlayerVideoVC.loadFromNib()
             playVideo.nameVideo = item?.name
             playVideo.key = item?.videos?.results?[0].key
-            self.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(playVideo, animated: true)
             
         }else{
@@ -274,31 +267,17 @@ extension DetailAnimeVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.collectionViewGallery{
             let cell = collectionViewGallery.dequeueReusableCell(withReuseIdentifier: GalleryCell.className, for: indexPath) as! GalleryCell
-            let url = URL(string: "https://image.tmdb.org/t/p/w500/" + (self.item?.images?.backdrops?[indexPath.row].filePath ?? "/ocUrMYbdjknu2TwzMHKT9PBBQRw.jpg"))
-            cell.img.kf.setImage(with: url)
-            
+            cell.configImage(item?.images?.backdrops?[indexPath.row].filePath)
             return cell
         }else if collectionView == self.collectionViewCast{
             /// tạm thời thay tác giả cho Cast
             let cell = collectionViewCast.dequeueReusableCell(withReuseIdentifier: ProfileCell.className, for: indexPath) as! ProfileCell
-            if let strUrl =  self.item?.createdBy?[indexPath.row].profilePath{
-                let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-                cell.img.kf.setImage(with: url)
-            }else{
-                cell.img.image = UIImage(named: "account")
-            }
-            cell.name.text = self.item?.createdBy?[indexPath.row].name
+            cell.setCellData(item?.createdBy?[indexPath.row])
             return cell
         }else{
             let cell = collectionViewCrew.dequeueReusableCell(withReuseIdentifier: ProfileCell.className, for: indexPath) as! ProfileCell
-            if let strUrl =  self.item?.seasons?[indexPath.row].posterPath{
-                let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-                cell.img.kf.setImage(with: url)
-            }else{
-                cell.img.image = UIImage(named: "account")
-            }
+            cell.setCellData(item?.seasons?[indexPath.row])
             
-            cell.name.text = self.item?.seasons?[indexPath.row].name
             return cell
         }
         
@@ -327,11 +306,8 @@ extension DetailAnimeVC: UICollectionViewDelegate{
             let vc = EspisodeVC.loadFromNib()
             vc.id = String(item?.id ?? 60572)
             vc.season = String(item?.seasons?[indexPath.row].seasonNumber ?? 0)
-            self.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    
-    
+
 }

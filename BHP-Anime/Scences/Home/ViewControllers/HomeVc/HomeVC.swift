@@ -91,26 +91,36 @@ class HomeVC: UIViewController {
         }else{
             self.page = 1
             self.showLoadingIndicator()
+            self.tableview.switchRefreshFooter(to: .normal)
         }
         
-        AnimeAPIManager.sharedInstance.listPopular(type: type, page: String(self.page), success: { (listItems) in
+        AnimeAPIManager.sharedInstance.listPopular(type: type, page: String(self.page), success: { [weak self] (listItems) in
+            
+            guard let sSelf = self else {return}
             
             if loadmore{
-                self.listItem.append(contentsOf: listItems)
+                sSelf.listItem.append(contentsOf: listItems)
             }else{
-                self.listItem = listItems
+                sSelf.listItem = listItems
             }
             
-            self.hideLoadingIndicator()
-            self.tableview.reloadData()
-            self.tableview.switchRefreshFooter(to: .normal)
-            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
-        }) { (error) in
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.reloadData()
+            
+            if listItems.count == 0 {
+                sSelf.tableview.switchRefreshFooter(to: .noMoreData)
+            } else {
+                sSelf.tableview.switchRefreshFooter(to: .normal)
+            }
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+        }) { [weak self] (error) in
+            
+            guard let sSelf = self else {return}
             print(error)
-            self.showToastAtBottom(message: error)
-            self.hideLoadingIndicator()
-            self.tableview.switchRefreshFooter(to: .normal)
-            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+            sSelf.showToastAtBottom(message: error)
+            sSelf.hideLoadingIndicator()
+            sSelf.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+            sSelf.tableview.switchRefreshFooter(to: .noMoreData)
         }
     }
     

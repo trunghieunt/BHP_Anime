@@ -35,7 +35,7 @@ let userDefaults = UserDefaults.standard
     func loadFavorites(success :  @escaping ([ObFavorite]) -> Void, notFound:@escaping () -> Void ){
         guard let favoritesData = UserDefaults.standard.object(forKey: self.STORAGE_FAVORITE) as? NSData else {
             notFound()
-            print("'places' not found in UserDefaults")
+            print("No favorite data")
             return
         }
 
