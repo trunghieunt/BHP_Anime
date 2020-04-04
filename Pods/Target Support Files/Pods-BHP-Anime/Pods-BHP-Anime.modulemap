@@ -1,6 +1,0 @@
-framework module Pods_BHP_Anime {
-  umbrella header "Pods-BHP-Anime-umbrella.h"
-
-  export *
-  module * { export * }
-}
