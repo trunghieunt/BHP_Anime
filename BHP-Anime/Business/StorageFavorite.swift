@@ -13,6 +13,7 @@ class StorageFavorite: NSObject {
 let userDefaults = UserDefaults.standard
     
     let STORAGE_FAVORITE = "favorite"
+    let STATUS_RATE_APP = "statusrateapp"
     
     override init() {
         super.init()

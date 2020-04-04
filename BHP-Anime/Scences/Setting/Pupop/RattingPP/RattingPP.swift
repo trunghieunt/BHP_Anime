@@ -51,7 +51,7 @@ class RattingPP: UIViewController {
             let alert = UIAlertController(title: "Would you like to rate us on the Appstore?", message: "", preferredStyle: UIAlertController.Style.alert)
             
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (ok) in
-                self.jumpToAppStore(appId: "284708449")
+                self.jumpToAppStore(appId: "1502872197")
             }))
             
             alert.addAction(UIAlertAction(title: "Cancle", style: .cancel, handler: nil))
@@ -68,7 +68,7 @@ class RattingPP: UIViewController {
     
     func jumpToAppStore(appId: String) {
         let url = "itms-apps://itunes.apple.com/app/id\(appId)"
-        UIApplication.shared.openURL(NSURL(string: url)! as URL)
+        UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
         dismiss(animated: true, completion: nil)
     }
     

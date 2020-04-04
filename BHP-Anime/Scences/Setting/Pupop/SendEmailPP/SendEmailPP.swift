@@ -7,22 +7,41 @@
 //
 
 import UIKit
-   import MessageUI
+import MessageUI
 
 class SendEmailPP: UIViewController {
     
+    @IBOutlet weak var txtTitle: UITextField!
+    
+    @IBOutlet weak var txtBody: UITextView!
+    
+    @IBOutlet weak var outletSend: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        configUI()
+    }
+    
+    func configUI() {
+        txtBody.layer.borderWidth = 1
+        txtBody.layer.borderColor = UIColor.init("#E1E1E1").cgColor
+        txtBody.layer.cornerRadius = 6
+        txtBody.padding()
+        outletSend.layer.cornerRadius = 6
     }
     
     @IBAction func sendEmail(_ sender: UIButton) {
         // Modify following variables with your text / recipient
         let recipientEmail = "trunghieunt201@email.com"
-        let subject = "Multi client email support"
-        let body = "This code supports sending email via multiple different email apps on iOS! :)"
+        guard let subject = self.txtTitle.text else{
+            self.showToastAtBottom(message: "You have not entered the subject")
+            return
+        }
+        guard let body = self.txtBody.text else{
+            self.showToastAtBottom(message: "You have not entered content feedback")
+            return
+        }
         
         // Show default mail composer
         if MFMailComposeViewController.canSendMail() {
@@ -63,11 +82,16 @@ class SendEmailPP: UIViewController {
         return defaultUrl
     }
     
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
+
+    @IBAction func exit(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
+    
 }
 
 extension SendEmailPP: MFMailComposeViewControllerDelegate{
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
     
 }

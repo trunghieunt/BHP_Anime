@@ -7,15 +7,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B1295902-F4B2-4B06-A18F-B8703874480A"
+            uuid = "FDAB0C21-0934-412E-9618-DBDC2CC71F38"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BHP-Anime/Scences/Setting/Pupop/SendEmailPP/SendEmailPP.swift"
+            filePath = "BHP-Anime/Scences/Home/Models/ModelsDetails/Crew.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "1"
+            endingLineNumber = "1"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -23,17 +23,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "868BDF06-8DEA-413D-8958-0655F5C445AD"
+            uuid = "17AC7B79-A678-48AD-92CF-425B9E3E79A9"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BHP-Anime/Scences/Setting/Pupop/SendEmailPP/SendEmailPP.swift"
+            filePath = "BHP-Anime/Scences/Setting/ViewControllers/SettingVC/SettingVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "05ABE3DB-2DCE-40F9-9CEC-CD540C679C54"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BHP-Anime/Scences/Setting/ViewControllers/SettingVC/SettingVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

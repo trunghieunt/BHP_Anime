@@ -8,35 +8,51 @@
 
 import UIKit
 import PullToRefreshKit
-
-import JGProgressHUD
+import StoreKit
 
 class HomeVC: UIViewController {
 
     @IBOutlet weak var tableview: UITableView!
-    var page = 1
-    var type = 1
+   
+    private var isShowRate = false
+    private var page = 1
+    private var type = 1
+    private var isLoading = false
+    
     var listItem : [Popular] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.isHidden = false
+        
+        if listItem.count == 0 {
+            getlistItems(false, type: type)
+        }
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if !isShowRate{
+            showAskRateApp()
+        }
+        
+    }
+    
+
     func configUI() {
-        self.title = "Anime"
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage.init(named: "ic_search"), style: .plain, target: self, action: #selector(searchButton))
-        self.navigationController?.navigationBar.tintColor = .black
-        let titleAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black, NSAttributedString.Key.font: AppFonts.Verdana(30)]
-        
-        self.navigationController?.navigationBar.titleTextAttributes = titleAttributes
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        getlistItems(false, type: type)
-        
-        
+        title = "Anime"
+
         self.tableview.registerCell(ScaledCell.className)
-        self.tableview.registerCell(SimpleCell.className)
+        self.tableview.registerCell(SearchCell.className)
         self.tableview.registerCell(MenuCell.className)
         self.tableview.dataSource = self
         self.tableview.separatorStyle = .none
@@ -45,13 +61,28 @@ class HomeVC: UIViewController {
         
         self.tableview.configRefreshFooter(container: self) {
             self.getlistItems(true, type: self.type)
-            self.tableview.switchRefreshFooter(to: .normal)
         }
         
-        self.tableview.configRefreshHeader(container: self) {
-            self.getlistItems(false, type: self.type)
-            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+//        self.tableview.configRefreshHeader(container: self) {
+//            self.getlistItems(false, type: self.type)
+//            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
+//        }
+        let header = DefaultRefreshHeader.header()
+        header.setText("", mode: .pullToRefresh)
+        self.tableview.configRefreshHeader(with: header, container: self) {
+             self.getlistItems(false, type: self.type)
         }
+    }
+    
+    
+    func showAskRateApp(){
+        
+        #if !targetEnvironment(simulator)
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            }
+        #endif
+        
     }
     
     func getlistItems(_ loadmore: Bool, type: Int) {
@@ -59,39 +90,31 @@ class HomeVC: UIViewController {
             self.page += 1
         }else{
             self.page = 1
+            self.showLoadingIndicator()
         }
-        var sortBy: String = ""
         
-        if type == 1{
-            sortBy = "popularity.desc"
-        }else if type == 2{
-            sortBy = "vote_count.desc"
-        }else{
-            sortBy = "release_date.desc"
-        }
-
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Loading"
-        hud.show(in: self.view)
-        AnimeAPIManager.sharedInstance.listPopular(sortBy: sortBy, withGenres: "16", page: String(self.page), success: { (listItems) in
+        AnimeAPIManager.sharedInstance.listPopular(type: type, page: String(self.page), success: { (listItems) in
             
-
             if loadmore{
                 self.listItem.append(contentsOf: listItems)
             }else{
                 self.listItem = listItems
             }
-
-            hud.dismiss()
+            
+            self.hideLoadingIndicator()
             self.tableview.reloadData()
+            self.tableview.switchRefreshFooter(to: .normal)
+            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
         }) { (error) in
             print(error)
+            self.showToastAtBottom(message: error)
+            self.hideLoadingIndicator()
+            self.tableview.switchRefreshFooter(to: .normal)
+            self.tableview.switchRefreshHeader(to: .normal(.success, 0.5))
         }
     }
     
-    @objc func searchButton(){
-        print("aaaaa")
-    }
+
 }
 
 extension HomeVC: UITableViewDataSource{
@@ -115,8 +138,6 @@ extension HomeVC: UITableViewDataSource{
             return scaledCell
         }else if indexPath.row == 1{
             let menuCell = tableView.dequeueReusableCell(withIdentifier: MenuCell.className, for: indexPath) as! MenuCell
-            menuCell.configCell(self.type)
-
             menuCell.selectionStyle = UITableViewCell.SelectionStyle.none
 
             menuCell.doneAction = {[weak self](type) in
@@ -125,7 +146,7 @@ extension HomeVC: UITableViewDataSource{
             }
             return menuCell
         } else{
-            let simpleCell = tableView.dequeueReusableCell(withIdentifier: SimpleCell.className, for: indexPath) as! SimpleCell
+            let simpleCell = tableView.dequeueReusableCell(withIdentifier: SearchCell.className, for: indexPath) as! SearchCell
 
             simpleCell.selectionStyle = UITableViewCell.SelectionStyle.none
 
@@ -138,11 +159,11 @@ extension HomeVC: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0{
-            return 280
+            return 240
         }else if indexPath.row == 1{
             return 40
         }else{
-            return 110
+            return 127
         }
         
     }
@@ -156,16 +177,9 @@ extension HomeVC: UITableViewDelegate{
 
         detailAnimeVC.id = String(listItem[indexPath.row + 3].id ?? 0)
 
-        guard let topVC = UIApplication.topViewController() else {
-            return
-        }
-        
-        topVC.navigationController?.present(detailAnimeVC, animated: true, completion: {
-
-            return
-
-        
-        })
+        self.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(detailAnimeVC, animated: true)
+        self.hidesBottomBarWhenPushed = false
     }
     
 }

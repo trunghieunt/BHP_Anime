@@ -1,0 +1,8 @@
+Pods
+fastlane/screenshots/
+fastlane/DerivedData/
+fastlane/report.xml
+fastlane/metadata/
+Gemfile
+xcuserdata/
+.DS_Store

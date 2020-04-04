@@ -17,10 +17,12 @@ class BaseViewController: UIViewController {
     }
     
     func configNavigationBarStyle() {
-        self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "bg_navi")?.stretchableImage(withLeftCapWidth: 1, topCapHeight: 1), for: .default)
-        self.navigationController?.navigationBar.backIndicatorImage = UIImage.init()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.tintColor = UIColor.init("#0C0E41")
+        self.navigationController?.navigationBar.barTintColor = UIColor.init("#0C0E41")
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "")?.stretchableImage(withLeftCapWidth: 1, topCapHeight: 1), for: .default)
+//        self.navigationController?.navigationBar.backIndicatorImage = UIImage.init()
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: "", style: .plain, target: nil, action: nil)
         self.view.backgroundColor = .white
     }
 }

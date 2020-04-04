@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    func addShadow(offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float) {
+    func addShadow(offset: CGSize = CGSize(width: 2, height: 2), color: UIColor = UIColor.black, radius: CGFloat = 4, opacity: Float = 0.25) {
         layer.masksToBounds = false
         layer.shadowOffset = offset
         layer.shadowColor = color.cgColor

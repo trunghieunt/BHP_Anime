@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class SimpleCell: UITableViewCell {
     @IBOutlet weak var img: UIImageView!
@@ -16,13 +17,12 @@ class SimpleCell: UITableViewCell {
     
     @IBOutlet weak var time: UILabel!
     
+    @IBOutlet weak var viewImg: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
         img.layer.cornerRadius = 6
-        img.layer.shadowColor = UIColor.black.cgColor
-        img.layer.shadowOffset = CGSize(width: 2, height: 2)
-        img.layer.shadowRadius = 12
-        img.layer.shadowOpacity = 0.5
+        viewImg.layer.cornerRadius = 6
+        viewImg.addShadow()
     }
 
     func configCell(_ item : Popular)  {
@@ -30,20 +30,14 @@ class SimpleCell: UITableViewCell {
         
         if let strUrl = item.backdropPath {
             let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: url!)
-                if let data = data{
-                    DispatchQueue.main.async {
-                        self.img.image = UIImage(data: data)
-                    }
-                }
-            }
+
+            self.img.kf.setImage(with: url)
         }else{
             self.img.image = UIImage(named: "test")
         }
 
-        self.titleAnime.text = item.title
-        self.time.text = item.releaseDate
+        self.titleAnime.text = item.name
+        self.time.text = item.firstAirDate
         self.lblEpisiode.text = "Vote: " +  String(item.voteAverage ?? 0)
         
     }

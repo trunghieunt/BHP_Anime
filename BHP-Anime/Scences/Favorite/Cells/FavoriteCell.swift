@@ -25,14 +25,7 @@ class FavoriteCell: UICollectionViewCell {
         
         if let strUrl = item.posterPath {
             let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: url!)
-                if let data = data{
-                    DispatchQueue.main.async {
-                        self.img.image = UIImage(data: data)
-                    }
-                }
-            }
+self.img.kf.setImage(with: url)
         }else{
             self.img.image = UIImage(named: "test")
         }

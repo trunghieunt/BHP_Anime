@@ -18,6 +18,12 @@ class DarkNavigationController: UINavigationController {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         // Do any additional setup after loading the view.
+        let titleAttributes = [NSAttributedString.Key.foregroundColor:UIColor.init("#0C0E41"), NSAttributedString.Key.font: AppFonts.Verdana(30)]
+       self.navigationBar.titleTextAttributes = titleAttributes
+       self.navigationBar.backgroundColor = .white
+       self.navigationBar.isTranslucent = false
+       self.navigationBar.barTintColor = UIColor.white
+       self.navigationBar.tintColor = UIColor.init("#0C0E41")
     }
 
 }

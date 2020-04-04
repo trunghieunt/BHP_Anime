@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import Toast_Swift
-import JGProgressHUD
 
 
 extension UIViewController {
@@ -38,14 +37,29 @@ extension UIViewController {
         self.view.makeToast(message, duration: 3.0, position: .bottom, style: style)
     }
     
-    func showLoading(_ show: Bool) {
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Loading"
-        hud.show(in: self.view)
-        if show{
-            hud.show(in: self.view)
-        }else{
-            hud.dismiss()
+
+    
+    func showLoadingIndicator(){
+        
+        let tag = 12093
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        indicator.tag = tag
+        //            indicator.style = UIActivityIndicatorView.Style.gray
+        //            indicator.color =
+        indicator.center = self.view.center
+        indicator.startAnimating()
+        indicator.hidesWhenStopped = true
+        self.view?.addSubview(indicator)
+        
+    }
+    
+    func hideLoadingIndicator(){
+        
+        let tag = 12093
+        if let indicator = self.view?.viewWithTag(tag) as? UIActivityIndicatorView { do {
+            indicator.stopAnimating()
+            indicator.removeFromSuperview()
+            }
         }
         
     }

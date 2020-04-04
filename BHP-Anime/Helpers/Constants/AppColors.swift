@@ -11,10 +11,10 @@ import UIKit
 
 struct AppColors {
     static let blackText = UIColor.init("#61686C")
-    static let primary = UIColor.init("#482CF5")
+    static let primary = UIColor.init("#6851F2")
     static let grayText = UIColor.init("#ADB4B9")
     static let shadowColor = UIColor.init("#E5ECED")
-    static let osloGray = UIColor.init("#858B8E")
+    static let osloGray = UIColor.init("#E5E5E5")
     static let OxfordBlue = UIColor.init("#263238")
 }
 

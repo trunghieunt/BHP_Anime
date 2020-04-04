@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,21 +21,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gNP-2j-6JC">
-                    <rect key="frame" x="0.0" y="116" width="414" height="746"/>
+                    <rect key="frame" x="0.0" y="125" width="414" height="737"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                 </tableView>
                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3UP-af-xh6">
-                    <rect key="frame" x="10" y="59" width="394" height="49"/>
+                    <rect key="frame" x="10" y="73" width="394" height="44"/>
                     <color key="backgroundColor" red="0.81176470588235294" green="0.84705882352941175" blue="0.86274509803921573" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="49" id="1AO-Yc-Dpv"/>
+                        <constraint firstAttribute="height" constant="44" id="1AO-Yc-Dpv"/>
                     </constraints>
-                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="17"/>
+                    <color key="textColor" red="0.047058823529411764" green="0.054901960784313725" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtL-bK-NuO">
-                    <rect key="frame" x="10" y="30" width="82.5" height="21"/>
+                    <rect key="frame" x="10" y="44" width="82.5" height="21"/>
                     <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="17"/>
                     <color key="textColor" red="0.047058823530000002" green="0.054901960780000002" blue="0.25490196079999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -44,11 +45,11 @@
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="3UP-af-xh6" secondAttribute="trailing" constant="10" id="455-7x-twU"/>
                 <constraint firstItem="gNP-2j-6JC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="JV1-kd-F10"/>
+                <constraint firstItem="jtL-bK-NuO" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="LQ3-wA-FaX"/>
                 <constraint firstItem="3UP-af-xh6" firstAttribute="top" secondItem="jtL-bK-NuO" secondAttribute="bottom" constant="8" id="MSe-3t-fON"/>
                 <constraint firstItem="jtL-bK-NuO" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="U2s-yP-GYP"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="gNP-2j-6JC" secondAttribute="bottom" id="XR8-TM-SZ7"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="gNP-2j-6JC" secondAttribute="trailing" id="cNV-t1-ZiA"/>
-                <constraint firstItem="jtL-bK-NuO" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="g7j-Um-e8m"/>
                 <constraint firstItem="gNP-2j-6JC" firstAttribute="top" secondItem="3UP-af-xh6" secondAttribute="bottom" constant="8" id="iQc-Dt-x20"/>
                 <constraint firstItem="3UP-af-xh6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ulZ-M0-rQc"/>
             </constraints>

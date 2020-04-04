@@ -31,7 +31,12 @@ public final class NetworkLoggerPlugin: PluginType {
             output(separator, terminator, request.debugDescription)
             return
         }
-        outputItems(logNetworkRequest(request.request as URLRequest?))
+//        outputItems(logNetworkRequest(request.request as URLRequest?))
+        if let str = request.request?.url?.absoluteString as? String{
+            if let string = NSString(string: str).removingPercentEncoding{
+             print(string)
+            }
+        }
     }
 
     public func didReceive(_ result: Result<Moya.Response, MoyaError>, target: TargetType) {
@@ -95,7 +100,9 @@ private extension NetworkLoggerPlugin {
 
         var output = [String]()
 
-        output += [format(loggerId, date: date, identifier: "Response", message: response.description)]
+        if isVerbose{
+            output += [format(loggerId, date: date, identifier: "Response", message: response.description)]
+        }
 
         if let data = data, let stringData = String(data: responseDataFormatter?(data) ?? data, encoding: String.Encoding.utf8), isVerbose {
             output += [stringData]

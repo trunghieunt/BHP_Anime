@@ -19,7 +19,7 @@ enum SearchServices {
 extension SearchServices: TargetType {
     
     var baseURL: URL {
-        return URL.init(string: "http://api.themoviedb.org/3/search/movie")!
+        return URL.init(string: "http://api.themoviedb.org/3/search/tv")!
     }
     
     var path: String {
@@ -39,7 +39,7 @@ extension SearchServices: TargetType {
         case .getAnime(let query, let page):
             var param = Parameters()
                 param["api_key"] = "647f1b2b2772a876099da5b545b40246"
-                param["language"] = "en-US"
+                param["with_original_language"] = "ja"
                 param["query"] = query
                 param["page"] = page
             

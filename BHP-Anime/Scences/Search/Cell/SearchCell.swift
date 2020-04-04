@@ -11,6 +11,7 @@ import Cosmos
 class SearchCell: UITableViewCell {
 
     
+    @IBOutlet weak var viewImg: UIView!
     
     @IBOutlet weak var img: UIImageView!
     @IBOutlet weak var titleAnime: UILabel!
@@ -23,35 +24,25 @@ class SearchCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         img.layer.cornerRadius = 6
-        
+        viewImg.layer.cornerRadius = 6
+        viewImg.addShadow()
         
     }
     func configCell(_ item : Popular){
 
-        if let strUrl = item.backdropPath {
+        if let strUrl = item.posterPath {
             let url = URL(string: "https://image.tmdb.org/t/p/w500/" + strUrl)
-            DispatchQueue.global().async {
-                let data = try? Data(contentsOf: url!)
-                if let data = data{
-                    DispatchQueue.main.async {
-                        self.img.image = UIImage(data: data)
-                    }
-                }
-            }
+            self.img.kf.setImage(with: url)
         }else{
             self.img.image = UIImage(named: "test")
         }
 
-        self.titleAnime.text = item.title
-        self.time.text = item.releaseDate
+        self.titleAnime.text = item.name
+        self.time.text = item.firstAirDate
         viewRating.rating = Double((item.voteAverage ?? 10)/10.0)*5
         viewRating.settings.fillMode = .precise
-        lblRating.text = String(item.voteAverage ?? 0)
+        lblRating.text = String(item.voteCount ?? 0)
     }
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
-    }
     
 }

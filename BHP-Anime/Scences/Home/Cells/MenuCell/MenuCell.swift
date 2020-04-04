@@ -9,7 +9,7 @@
 import UIKit
 
 class MenuCell: UITableViewCell {
-
+    
     @IBOutlet weak var outletBtn1: UIButton!
     @IBOutlet weak var outletBtn2: UIButton!
     @IBOutlet weak var outletBtn3: UIButton!
@@ -19,38 +19,34 @@ class MenuCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-    }
-    func configCell(_ number: Int) {
         outletBtn1.setTitleColor(AppColors.grayText, for: .normal)
         outletBtn2.setTitleColor(AppColors.grayText, for: .normal)
         outletBtn3.setTitleColor(AppColors.grayText, for: .normal)
         
-        if number == 1{
-            outletBtn1.setTitleColor(AppColors.blackText, for: .normal)
-        }else if number == 2{
-            outletBtn2.setTitleColor(AppColors.blackText, for: .normal)
-        }else{
-            outletBtn3.setTitleColor(AppColors.blackText, for: .normal)
-        }
+        outletBtn1.setTitleColor(AppColors.blackText, for: .selected)
+        outletBtn2.setTitleColor(AppColors.blackText, for: .selected)
+        outletBtn3.setTitleColor(AppColors.blackText, for: .selected)
+        
+        outletBtn1.tag = 1
+        outletBtn2.tag = 2
+        outletBtn3.tag = 3
+        
+        outletBtn1.isSelected = true
         
     }
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
-    @IBAction func actionBtn1(_ sender: Any) {
-        self.doneAction(1)
-    }
-    
-    @IBAction func actionBtn2(_ sender: Any) {
-        self.doneAction(2)
-    }
-    
-    @IBAction func actionBtn3(_ sender: Any) {
-        self.doneAction(3)
+    @IBAction func actionBtn1(_ sender: UIButton) {
+        
+        if sender.isSelected{
+            return
+        }
+        
+        outletBtn1.isSelected = false
+        outletBtn2.isSelected = false
+        outletBtn3.isSelected = false
+        
+        sender.isSelected = true
+        self.doneAction(sender.tag)
     }
     
 }

@@ -9,8 +9,6 @@
 import UIKit
 import PullToRefreshKit
 
-import JGProgressHUD
-
 class SearchVC: UIViewController {
 
     @IBOutlet weak var searchbar: UITextField!
@@ -24,21 +22,30 @@ class SearchVC: UIViewController {
         configUI()
         // Do any additional setup after loading the view.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.isHidden = true
+    }
     func configUI(){
         searchbar.addRightImage("ic_search1")
-        searchbar.attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+        searchbar.attributedPlaceholder = NSAttributedString(string: "Enter anime movie title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
 
         searchbar.layer.cornerRadius = 8
         searchbar.setLeftPaddingPoints(10)
+        searchbar.returnKeyType = UIReturnKeyType.done
+        searchbar.delegate = self
 
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false    
+        view.addGestureRecognizer(tap)
         
         self.tableview.registerCell(SearchCell.className)
         self.tableview.dataSource = self
         self.tableview.separatorStyle = .none
         self.tableview.delegate = self
+        self.tableview.keyboardDismissMode = .onDrag
 
-        
-        self.navigationController?.navigationBar.isHidden = true
         
         self.getlistItems(false)
         
@@ -63,6 +70,10 @@ class SearchVC: UIViewController {
         searchbar.addTarget(self, action: #selector(actionSearch), for: .editingChanged)
     }
     
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
     @objc func actionSearch(){
         self.textSearch = self.searchbar.text ?? ""
         if self.textSearch != ""{
@@ -79,10 +90,9 @@ class SearchVC: UIViewController {
             self.page = 1
         }
 
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Loading"
-        hud.show(in: self.view)
-        SearchAPIManager.sharedInstance.listPopular(query: self.textSearch, page: String(self.page), success: { (listItemsSearch) in
+
+        self.showLoadingIndicator()
+        SearchAPIManager.sharedInstance.listPopular(query: self.textSearch, page: String(self.page), success: {(listItemsSearch) in
             
             if loadmore{
                 self.listItem.append(contentsOf: listItemsSearch)
@@ -90,11 +100,13 @@ class SearchVC: UIViewController {
                 self.listItem = listItemsSearch
             }
 
-            hud.dismiss()
+            self.hideLoadingIndicator()
 
             self.tableview.reloadData()
         }) { (error) in
             print(error)
+            self.showToastAtBottom(message: error)
+            self.hideLoadingIndicator()
         }
     }
 
@@ -104,22 +116,22 @@ class SearchVC: UIViewController {
         }else{
             self.page = 1
         }
+        
+        self.showLoadingIndicator()
 
-        let hud = JGProgressHUD(style: .dark)
-        hud.textLabel.text = "Loading"
-        hud.show(in: self.view)
-
-        AnimeAPIManager.sharedInstance.listPopular(sortBy: "popularity.desc", withGenres: "16", page: String(self.page), success: { (listItems) in
+        AnimeAPIManager.sharedInstance.listPopular(type: 1, page: String(self.page), success: { (listItems) in
             if loadmore{
                 self.listItem.append(contentsOf: listItems)
             }else{
                 self.listItem = listItems
             }
 
-            hud.dismiss()
+            self.hideLoadingIndicator()
             self.tableview.reloadData()
         }) { (error) in
             print(error)
+            self.showToastAtBottom(message: error)
+            self.hideLoadingIndicator()
         }
     }
 }
@@ -148,9 +160,17 @@ extension SearchVC: UITableViewDelegate{
         }
         
         //        topVC.navigationController?.pushViewController(detailAnimeVC, animated: true)
-        topVC.navigationController?.present(detailAnimeVC, animated: true, completion: {
+        self.hidesBottomBarWhenPushed  = true
+        
+        topVC.navigationController?.pushViewController(detailAnimeVC, animated: true)
+        self.hidesBottomBarWhenPushed = false
+    }
+}
 
-            return
-        })
+extension SearchVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        textField.resignFirstResponder()
+        return true
     }
 }

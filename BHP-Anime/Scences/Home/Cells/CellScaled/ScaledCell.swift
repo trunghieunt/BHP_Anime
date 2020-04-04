@@ -16,6 +16,8 @@ class ScaledCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var listItems : [Popular] = []
+    var staticIndex = 0
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,7 +41,13 @@ class ScaledCell: UITableViewCell {
         collectionView.registerCell(ItemsCell.className)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        self.collectionView.alpha = 1
         collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
+            self.collectionView.alpha = 1
+        }
     }
     
     
@@ -54,17 +62,11 @@ extension ScaledCell: UICollectionViewDataSource,  UICollectionViewDelegateFlowL
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemsCell.className, for: indexPath) as! ItemsCell
         //          cell.bgImageView.image = UIImage.init(named: datas[indexPath.row])
         cell.configCell(listItems[indexPath.row])
-        //        cell.layer.shadowPath = shadowPath0.cgPath
         
+        
+        cell.addShadow(offset: CGSize(width: 4, height: 4), color: .black, radius: 10, opacity: 0.4)
         cell.layer.cornerRadius = 16
         
-        cell.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
-        
-        cell.layer.shadowOpacity = 1
-        
-        cell.layer.shadowRadius = 15
-        
-        cell.layer.shadowOffset = CGSize(width: 4, height: 4)
         return cell
     }
     
@@ -78,8 +80,8 @@ extension ScaledCell: UICollectionViewDelegate{
         guard let topVC = UIApplication.topViewController() else {
             return
         }
-        topVC.navigationController?.present(detailAnimeVC, animated: true, completion: {
-            return
-        })
+        topVC.hidesBottomBarWhenPushed = true
+        topVC.navigationController?.pushViewController(detailAnimeVC, animated: true)
+        topVC.hidesBottomBarWhenPushed = false
     }
 }

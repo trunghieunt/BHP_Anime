@@ -1,7 +1,7 @@
 //
 //  Popular.swift
 //
-//  Created by Nguyen Trung Hieu on 3/4/20
+//  Created by Nguyen Trung Hieu on 4/2/20
 //  Copyright (c) . All rights reserved.
 //
 
@@ -13,36 +13,34 @@ public final class Popular: NSCoding {
   // MARK: Declaration for string constants to be used to decode and also serialize.
   private struct SerializationKeys {
     static let posterPath = "poster_path"
+    static let originCountry = "origin_country"
     static let backdropPath = "backdrop_path"
+    static let name = "name"
     static let genreIds = "genre_ids"
+    static let firstAirDate = "first_air_date"
+    static let originalName = "original_name"
     static let voteCount = "vote_count"
     static let overview = "overview"
-    static let originalTitle = "original_title"
     static let popularity = "popularity"
-    static let releaseDate = "release_date"
-    static let id = "id"
-    static let video = "video"
-    static let originalLanguage = "original_language"
     static let voteAverage = "vote_average"
-    static let title = "title"
-    static let adult = "adult"
+    static let id = "id"
+    static let originalLanguage = "original_language"
   }
 
   // MARK: Properties
   public var posterPath: String?
+  public var originCountry: [String]?
   public var backdropPath: String?
+  public var name: String?
   public var genreIds: [Int]?
+  public var firstAirDate: String?
+  public var originalName: String?
   public var voteCount: Int?
   public var overview: String?
-  public var originalTitle: String?
   public var popularity: Float?
-  public var releaseDate: String?
-  public var id: Int?
-  public var video: Bool? = false
-  public var originalLanguage: String?
   public var voteAverage: Float?
-  public var title: String?
-  public var adult: Bool? = false
+  public var id: Int?
+  public var originalLanguage: String?
 
   // MARK: SwiftyJSON Initializers
   /// Initiates the instance based on the object.
@@ -58,19 +56,18 @@ public final class Popular: NSCoding {
   /// - parameter json: JSON object from SwiftyJSON.
   public required init(json: JSON) {
     posterPath = json[SerializationKeys.posterPath].string
+    if let items = json[SerializationKeys.originCountry].array { originCountry = items.map { $0.stringValue } }
     backdropPath = json[SerializationKeys.backdropPath].string
+    name = json[SerializationKeys.name].string
     if let items = json[SerializationKeys.genreIds].array { genreIds = items.map { $0.intValue } }
+    firstAirDate = json[SerializationKeys.firstAirDate].string
+    originalName = json[SerializationKeys.originalName].string
     voteCount = json[SerializationKeys.voteCount].int
     overview = json[SerializationKeys.overview].string
-    originalTitle = json[SerializationKeys.originalTitle].string
     popularity = json[SerializationKeys.popularity].float
-    releaseDate = json[SerializationKeys.releaseDate].string
-    id = json[SerializationKeys.id].int
-    video = json[SerializationKeys.video].boolValue
-    originalLanguage = json[SerializationKeys.originalLanguage].string
     voteAverage = json[SerializationKeys.voteAverage].float
-    title = json[SerializationKeys.title].string
-    adult = json[SerializationKeys.adult].boolValue
+    id = json[SerializationKeys.id].int
+    originalLanguage = json[SerializationKeys.originalLanguage].string
   }
 
   /// Generates description of the object in the form of a NSDictionary.
@@ -79,55 +76,52 @@ public final class Popular: NSCoding {
   public func dictionaryRepresentation() -> [String: Any] {
     var dictionary: [String: Any] = [:]
     if let value = posterPath { dictionary[SerializationKeys.posterPath] = value }
+    if let value = originCountry { dictionary[SerializationKeys.originCountry] = value }
     if let value = backdropPath { dictionary[SerializationKeys.backdropPath] = value }
+    if let value = name { dictionary[SerializationKeys.name] = value }
     if let value = genreIds { dictionary[SerializationKeys.genreIds] = value }
+    if let value = firstAirDate { dictionary[SerializationKeys.firstAirDate] = value }
+    if let value = originalName { dictionary[SerializationKeys.originalName] = value }
     if let value = voteCount { dictionary[SerializationKeys.voteCount] = value }
     if let value = overview { dictionary[SerializationKeys.overview] = value }
-    if let value = originalTitle { dictionary[SerializationKeys.originalTitle] = value }
     if let value = popularity { dictionary[SerializationKeys.popularity] = value }
-    if let value = releaseDate { dictionary[SerializationKeys.releaseDate] = value }
-    if let value = id { dictionary[SerializationKeys.id] = value }
-    dictionary[SerializationKeys.video] = video
-    if let value = originalLanguage { dictionary[SerializationKeys.originalLanguage] = value }
     if let value = voteAverage { dictionary[SerializationKeys.voteAverage] = value }
-    if let value = title { dictionary[SerializationKeys.title] = value }
-    dictionary[SerializationKeys.adult] = adult
+    if let value = id { dictionary[SerializationKeys.id] = value }
+    if let value = originalLanguage { dictionary[SerializationKeys.originalLanguage] = value }
     return dictionary
   }
 
   // MARK: NSCoding Protocol
   required public init(coder aDecoder: NSCoder) {
     self.posterPath = aDecoder.decodeObject(forKey: SerializationKeys.posterPath) as? String
+    self.originCountry = aDecoder.decodeObject(forKey: SerializationKeys.originCountry) as? [String]
     self.backdropPath = aDecoder.decodeObject(forKey: SerializationKeys.backdropPath) as? String
+    self.name = aDecoder.decodeObject(forKey: SerializationKeys.name) as? String
     self.genreIds = aDecoder.decodeObject(forKey: SerializationKeys.genreIds) as? [Int]
+    self.firstAirDate = aDecoder.decodeObject(forKey: SerializationKeys.firstAirDate) as? String
+    self.originalName = aDecoder.decodeObject(forKey: SerializationKeys.originalName) as? String
     self.voteCount = aDecoder.decodeObject(forKey: SerializationKeys.voteCount) as? Int
     self.overview = aDecoder.decodeObject(forKey: SerializationKeys.overview) as? String
-    self.originalTitle = aDecoder.decodeObject(forKey: SerializationKeys.originalTitle) as? String
     self.popularity = aDecoder.decodeObject(forKey: SerializationKeys.popularity) as? Float
-    self.releaseDate = aDecoder.decodeObject(forKey: SerializationKeys.releaseDate) as? String
-    self.id = aDecoder.decodeObject(forKey: SerializationKeys.id) as? Int
-    self.video = aDecoder.decodeBool(forKey: SerializationKeys.video)
-    self.originalLanguage = aDecoder.decodeObject(forKey: SerializationKeys.originalLanguage) as? String
     self.voteAverage = aDecoder.decodeObject(forKey: SerializationKeys.voteAverage) as? Float
-    self.title = aDecoder.decodeObject(forKey: SerializationKeys.title) as? String
-    self.adult = aDecoder.decodeBool(forKey: SerializationKeys.adult)
+    self.id = aDecoder.decodeObject(forKey: SerializationKeys.id) as? Int
+    self.originalLanguage = aDecoder.decodeObject(forKey: SerializationKeys.originalLanguage) as? String
   }
 
   public func encode(with aCoder: NSCoder) {
     aCoder.encode(posterPath, forKey: SerializationKeys.posterPath)
+    aCoder.encode(originCountry, forKey: SerializationKeys.originCountry)
     aCoder.encode(backdropPath, forKey: SerializationKeys.backdropPath)
+    aCoder.encode(name, forKey: SerializationKeys.name)
     aCoder.encode(genreIds, forKey: SerializationKeys.genreIds)
+    aCoder.encode(firstAirDate, forKey: SerializationKeys.firstAirDate)
+    aCoder.encode(originalName, forKey: SerializationKeys.originalName)
     aCoder.encode(voteCount, forKey: SerializationKeys.voteCount)
     aCoder.encode(overview, forKey: SerializationKeys.overview)
-    aCoder.encode(originalTitle, forKey: SerializationKeys.originalTitle)
     aCoder.encode(popularity, forKey: SerializationKeys.popularity)
-    aCoder.encode(releaseDate, forKey: SerializationKeys.releaseDate)
-    aCoder.encode(id, forKey: SerializationKeys.id)
-    aCoder.encode(video, forKey: SerializationKeys.video)
-    aCoder.encode(originalLanguage, forKey: SerializationKeys.originalLanguage)
     aCoder.encode(voteAverage, forKey: SerializationKeys.voteAverage)
-    aCoder.encode(title, forKey: SerializationKeys.title)
-    aCoder.encode(adult, forKey: SerializationKeys.adult)
+    aCoder.encode(id, forKey: SerializationKeys.id)
+    aCoder.encode(originalLanguage, forKey: SerializationKeys.originalLanguage)
   }
 
 }

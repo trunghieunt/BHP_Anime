@@ -1,74 +1,68 @@
 PODS:
   - Alamofire (4.9.1)
-  - AutoInsetter (1.8.0)
   - Cosmos (21.0.0)
   - DynamicBlurView (4.0.0)
-  - JGProgressHUD (2.1)
+  - EmptyDataSet-Swift (5.0.0)
+  - Kingfisher (5.13.2):
+    - Kingfisher/Core (= 5.13.2)
+  - Kingfisher/Core (5.13.2)
   - Moya (13.0.1):
     - Moya/Core (= 13.0.1)
   - Moya/Core (13.0.1):
     - Alamofire (~> 4.1)
     - Result (~> 4.1)
-  - Pageboy (3.5.0)
   - PopupDialog (1.1.1):
     - DynamicBlurView (~> 4.0)
   - PullToRefreshKit (0.8.8)
   - Result (4.1.0)
   - SwiftyJSON (5.0.0)
-  - Tabman (2.6.3):
-    - AutoInsetter (~> 1.8.0)
-    - Pageboy (~> 3.5.0)
   - Toast-Swift (5.0.1)
   - UPCarouselFlowLayout (1.1.2)
-  - YoutubeKit (0.4.0)
+  - YouTubePlayer (0.4.0)
 
 DEPENDENCIES:
-  - Cosmos (~> 21.0)
-  - JGProgressHUD
-  - Moya (~> 13.0)
+  - Cosmos
+  - EmptyDataSet-Swift
+  - Kingfisher
+  - Moya
   - PopupDialog
   - PullToRefreshKit
   - SwiftyJSON
-  - Tabman (~> 2.6)
-  - Toast-Swift (~> 5.0.0)
+  - Toast-Swift
   - UPCarouselFlowLayout
-  - YoutubeKit
+  - YouTubePlayer
 
 SPEC REPOS:
   trunk:
     - Alamofire
-    - AutoInsetter
     - Cosmos
     - DynamicBlurView
-    - JGProgressHUD
+    - EmptyDataSet-Swift
+    - Kingfisher
     - Moya
-    - Pageboy
     - PopupDialog
     - PullToRefreshKit
     - Result
     - SwiftyJSON
-    - Tabman
     - Toast-Swift
     - UPCarouselFlowLayout
-    - YoutubeKit
+    - YouTubePlayer
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  AutoInsetter: 0b90ca74e36561c340129045a3722c51a0b15c58
   Cosmos: 3dfb6e4ba48bd48b8c9aa2a77048ae11ed114f96
   DynamicBlurView: ccf9acd2b20c883cc2c72e3524a04d8d3ee20533
-  JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
+  EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
+  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
-  Pageboy: 3794c578aae5fcce06e90b3ed4a0ad6b807d75bb
   PopupDialog: 720c92befd8bc23c13442254945213db5612f149
   PullToRefreshKit: 7cc53e720e69f135cffa1a57784dfb534f0222ab
   Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  Tabman: 63eae331ae7a9388ae389b1808f1939269fcdece
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   UPCarouselFlowLayout: 4c7d2c43a10ebb1597bde502a53699d378341dad
-  YoutubeKit: 10c74151790b570001b19403d2c60b2fb540a1fe
+  YouTubePlayer: 028451f6772f372d4759866db99824c676ac1473
 
-PODFILE CHECKSUM: fc37bbf62f186be41163dee5b53208901f3ba96c
+PODFILE CHECKSUM: 5b3815e7f19245e5b72e97085795c4c81d21a326
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.0
